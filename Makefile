@@ -6,38 +6,43 @@
 #    By: dmodrzej <dmodrzej@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/02 11:43:35 by dmodrzej          #+#    #+#              #
-#    Updated: 2024/05/08 20:32:04 by dmodrzej         ###   ########.fr        #
+#    Updated: 2024/05/08 21:20:24 by dmodrzej         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	so_long
 
-SRCS	=	main.c
-
-INC		=	-I includes -I libs/libft -I libs/ft_printf -I libs/mlx
-
-OBJ_DIR =	objs
-
-OBJS	=	$(addprefix $(OBJ_DIR)/,$(SRCS:.c=.o))
-
+# compiler
 CC		=	cc
-
 FLAGS	=	-Wall -Wextra -Werror
 
+# sources
+SRC_DIR =	srcs/
+SRC		=	main.c
+SRCS	=	$(addprefix $(SRC_DIR), $(SRC))
+
+# objects
+OBJ_DIR	=	objs/
+OBJ		=	$(SRC:.c=.o)
+OBJS	=	$(addprefix $(OBJ_DIR), $(OBJ))
+
+# includes
+INC		=	-I includes -I libs/libft -I libs/ft_printf -I libs/mlx
+
 # libft
-LIBFT_PATH	= libs/libft/
-LIBFT_NAME	= libft.a
-LIBFT		= $(LIBFT_PATH)$(LIBFT_NAME)
+LIBFT_DIR	=	libs/libft/
+LIBFT_NAME	=	libft.a
+LIBFT		=	$(LIBFT_DIR)$(LIBFT_NAME)
 
 # ft_printf
-PRINT_F_PATH	= libs/ft_printf/
-PRINT_F_NAME	= libftprintf.a
-PRINT_F			= $(PRINT_F_PATH)$(PRINT_F_NAME)
+PRINT_F_DIR		=	libs/ft_printf/
+PRINT_F_NAME	=	libftprintf.a
+PRINT_F			=	$(PRINT_F_DIR)$(PRINT_F_NAME)
 
 # mlx
-MLX_PATH	= libs/mlx/
-MLX_NAME	= libmlx.a
-MLX			= $(MLX_PATH)$(MLX_NAME)
+MLX_DIR		=	libs/mlx/
+MLX_NAME	=	libmlx.a
+MLX			=	$(MLX_DIR)$(MLX_NAME)
 
 # colors & symbols
 GREEN 	= 	\033[0;32m
@@ -54,8 +59,7 @@ define PRINT_LOADING
 	@printf "] 100%%$(RESET)\n"
 endef
 
-$(OBJ_DIR)/%.o: %.c includes/so_long.h
-			@mkdir -p $(OBJ_DIR)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJ_DIR)
 			@$(CC) $(FLAGS) -c $< -o $@ $(INC)
 
 all:		$(LIBFT) $(PRINT_F) $(MLX) $(NAME)
@@ -66,20 +70,23 @@ $(NAME):	$(OBJS)
 			@$(PRINT_LOADING)
 			@echo "$(GREEN)Program compilation successful		$(TICK)$(NC)"
 
+$(OBJ_DIR):
+			@mkdir -p $(OBJ_DIR)
+
 $(LIBFT):
-			@make -sC $(LIBFT_PATH)
+			@make -sC $(LIBFT_DIR)
 
 $(PRINT_F):
-			@make -sC $(PRINT_F_PATH)
+			@make -sC $(PRINT_F_DIR)
 
 $(MLX):
-			@make -sC $(MLX_PATH)
+			@make -sC $(MLX_DIR)
 
 clean:		
 			@echo "$(CYAN)Cleaning .o files...$(NC)"
-			@make clean -sC $(LIBFT_PATH)
-			@make clean -sC $(PRINT_F_PATH)
-			@make clean -sC $(MLX_PATH)
+			@make clean -sC $(LIBFT_DIR)
+			@make clean -sC $(PRINT_F_DIR)
+			@make clean -sC $(MLX_DIR)
 			@rm -rf $(OBJ_DIR)
 			@$(PRINT_LOADING)
 			@echo "$(GREEN)Cleaning of of .o files successful	$(TICK)$(NC)"
