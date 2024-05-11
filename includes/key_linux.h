@@ -1,73 +1,75 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   keys.h                                             :+:      :+:    :+:   */
+/*   key_linux.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmodrzej <dmodrzej@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 19:40:54 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/05/08 19:41:07 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/05/11 10:47:32 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef KEY_LINUX_H
 # define KEY_LINUX_H
 
+# define CLOSE_BTN 17
+
 /*
 ** Keyboard LETTERS
 */
 
-# define K_A 97
-# define K_B 98
-# define K_C 99
-# define K_D 100
-# define K_E 101
-# define K_F 102
-# define K_G 103
-# define K_H 104
-# define K_I 105
-# define K_J 106
-# define K_K 107
-# define K_L 108
-# define K_M 109
-# define K_N 110
-# define K_O 111
-# define K_P 112
-# define K_Q 113
-# define K_R 114
-# define K_S 115
-# define K_T 116
-# define K_U 117
-# define K_V 118
-# define K_W 119
-# define K_X 120
-# define K_Y 121
-# define K_Z 122
+# define KEY_A 97
+# define KEY_B 98
+# define KEY_C 99
+# define KEY_D 100
+# define KEY_E 101
+# define KEY_F 102
+# define KEY_G 103
+# define KEY_H 104
+# define KEY_I 105
+# define KEY_J 106
+# define KEY_K 107
+# define KEY_L 108
+# define KEY_M 109
+# define KEY_N 110
+# define KEY_O 111
+# define KEY_P 112
+# define KEY_Q 113
+# define KEY_R 114
+# define KEY_S 115
+# define KEY_T 116
+# define KEY_U 117
+# define KEY_V 118
+# define KEY_W 119
+# define KEY_X 120
+# define KEY_Y 121
+# define KEY_Z 122
 
 /*
 ** Keyboard ARROWS
 */
 
-# define K_AR_L 65361
-# define K_AR_R 65363
-# define K_AR_U 65362
-# define K_AR_D 65364
+# define KEY_AR_L 65361
+# define KEY_AR_R 65363
+# define KEY_AR_U 65362
+# define KEY_AR_D 65364
 
 /*
 ** Keyboard NUMPAD
 */
 
-# define K_NP_DIV 65455
-# define K_NP_MUL 65450
-# define K_NP_MIN 65453
-# define K_NP_PLU 65451
+# define KEY_NP_DIV 65455
+# define KEY_NP_MUL 65450
+# define KEY_NP_MIN 65453
+# define KEY_NP_PLU 65451
 
 /*
 ** Keyboard MISC
 */
 
-# define K_SP 32
-# define K_ESC 65307
+# define KEY_SPACE 32
+# define KEY_ESC 65307
 
 /*
 ** Mouse
