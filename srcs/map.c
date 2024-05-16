@@ -6,20 +6,59 @@
 /*   By: dmodrzej <dmodrzej@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 11:17:51 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/05/11 17:29:22 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/05/16 02:09:54 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	init_map(t_map *map)
+void	read_map(t_game *game, char *path)
 {
-	map->map = NULL;
-	map->width = 0;
-	map->height = 0;
+	int		fd;
+	char	*line;
+	char	**split;
+
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		end_game(game);
+	line = get_next_line(fd);
+	if (!line)
+	{
+		close(fd);
+		end_game(game);
+	}
+	if (ft_strchr(line, '\n') != 0)
+	{
+		split = ft_split(line, '\n');
+		free(line);
+		line = split[0];
+		free(split);
+	}
+	game->map.width = ft_strlen(line);
+	while (line)
+	{
+		if ((int)ft_strlen(line) != game->map.width)
+		{
+			free(line);
+			close(fd);
+			end_game(game);
+		}
+		game->map.height++;
+		game->map.width = ft_strlen(line);
+		free(line);
+		line = get_next_line(fd);
+		if (ft_strchr(line, '\n') != 0)
+		{
+			split = ft_split(line, '\n');
+			free(line);
+			line = split[0];
+			free(split);
+		}
+	}
+	close(fd);
 }
 
-void	read_map(t_map *map, char *path)
+void	fill_map(t_game *game, char *path)
 {
 	int		fd;
 	char	*line;
@@ -27,80 +66,98 @@ void	read_map(t_map *map, char *path)
 
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-	{
-		ft_printf("Error\nCould not open file %s\n", path);
-		exit(1);
-	}
-	map->height = 0;
-	map->width = 0;
-	line = get_next_line(fd);
-	while (line)
-	{
-		map->height++;
-		if (map->width == 0)
-			map->width = ft_strlen(line);
-		free(line);
-		line = get_next_line(fd);
-	}
-	close(fd);
-	map->map = malloc(map->height * sizeof(char *));
-	if (!map->map)
-	{
-		ft_printf("Error\nCould not allocate memory for map\n");
-		exit(1);
-	}
+		end_game(game);
+	game->map.map = malloc(game->map.height * sizeof(char *));
+	if (!game->map.map)
+		end_game(game);
 	i = 0;
-	while (i < map->height)
+	while (i < game->map.height)
 	{
-		map->map[i] = malloc((map->width + 1) * sizeof(char));
-		if (!map->map[i])
-		{
-			ft_printf("Error\nCould not allocate memory for map row\n");
-			exit(1);
-		}
-		i++;
-	}
-	fd = open(path, O_RDONLY);
-	if (fd < 0)
-	{
-		ft_printf("Error\nCould not open file %s\n", path);
-		exit(1);
-	}
-	i = 0;
-	line = get_next_line(fd);
-	while (line)
-	{
-		ft_strlcpy(map->map[i], line, map->width + 1);
-		free(line);
 		line = get_next_line(fd);
+		game->map.map[i] = malloc((game->map.width + 1) * sizeof(char));
+		if (!game->map.map[i])
+			end_game(game);
+		ft_strlcpy(game->map.map[i], line, game->map.width + 1);
+		free(line);
 		i++;
 	}
 	close(fd);
 }
 
-void	render_map(t_game *game, t_map map)
+int	validate_elements(t_map *map)
 {
-	int	line;
-	int	column;
+	int	i;
+	int	j;
 
-	line = 0;
-	while (line < map.height)
+	i = 0;
+	while (i < map->height)
 	{
-		column = 0;
-		while (column < map.width - 1)
+		j = 0;
+		while (j < map->width)
 		{
-			if (map.map[line][column] == 'E')
-				render_sprite(game, &game->portal, line, column);
-			if (map.map[line][column] == 'C')
-				render_sprite(game, &game->coins, line, column);
-			if (map.map[line][column] == '1')
-				render_sprite(game, &game->tree, line, column);
-			if (map.map[line][column] == '0')
-				render_sprite(game, &game->floor, line, column);
-			if (map.map[line][column] == 'P')
-				render_sprite(game, &game->player, line, column);		
-			column++;
+			if (ft_strchr("01CEP", map->map[i][j]) == NULL)
+				return (0);
+			j++;
 		}
-		line++;
+		i++;
 	}
+	return (1);
+}
+
+int	check_walls(t_map *map)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < map->height)
+	{
+		j = 0;
+		while (j < map->width)
+		{
+			if (i == 0 || i == map->height)
+			{
+				if (map->map[i][j] != '1')
+					return (0);
+			}
+			if (j == 0 || j == map->width - 1)
+			{
+				if (map->map[i][j] != '1')
+					return (0);
+			}
+			j++;
+		}
+		i++;
+	}
+	return (1);
+}
+
+int	count_elements(t_game *game)
+{
+	int	i;
+	int	j;
+	int	player;
+	int	exit;
+
+	i = 0;
+	player = 0;
+	exit = 0;
+	while (i < game->map.height)
+	{
+		j = 0;
+		while (j < game->map.width)
+		{
+			if (game->map.map[i][j] == 'C')
+				game->collectibles++;
+			if (game->map.map[i][j] == 'P')
+				player++;
+			if (game->map.map[i][j] == 'E')
+				exit++;
+			j++;
+		}
+		i++;
+	}
+	if (game->collectibles == 0 || player != 1 || exit != 1)
+		return (0);
+	return (1);
 }
