@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 19:24:47 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/05/16 00:13:55 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/05/16 12:56:54 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,15 +97,19 @@ void	render_map(t_game *game, t_map map);
 //Map
 void	read_map(t_game *game, char *path);
 void	fill_map(t_game *game, char *path);
-int		validate_elements(t_map *map);
-int		check_walls(t_map *map);
-int		count_elements(t_game *game);
-void	draw_map(t_game *game);
+void	validate_elements(t_game *game);
+void	check_walls(t_game *game);
+void	count_elements(t_game *game);
 
 //Utils
+int		open_map(char *path, t_game *game);
+char	*split_line(char *line);
 void	display_moves_and_collectibles(t_game *game);
-int		end_game(t_game *game);
+// void	draw_map(t_game *game);
+
+//Messages
+int		end_game(t_game *game, char *message, int code);
 void	destroy_images(t_game *game);
-void	exit_with_message(int code);
+void	exit_message(t_game *game, char *message, int code);
 
 #endif

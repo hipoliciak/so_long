@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 11:03:34 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/05/16 00:05:59 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/05/16 02:15:00 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ t_image	create_sprite(t_game *game, char *path)
 {
 	t_image	sprite;
 
-	sprite.xpm_ptr = mlx_xpm_file_to_image(game->mlx_ptr, path, &sprite.x, &sprite.y);
+	sprite.xpm_ptr = mlx_xpm_file_to_image(game->mlx_ptr, path,
+			&sprite.x, &sprite.y);
 	if (!sprite.xpm_ptr)
 		end_game(game);
 	return (sprite);

@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 16:31:31 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/05/15 21:02:20 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/05/16 12:46:13 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	move_up(t_game *game)
 		game->map.map[y][x] = '0';
 		game->map.map[game->map.y_exit_pos][game->map.x_exit_pos] = 'E';
 		if (game->map.map[y - 1][x] == 'E' && game->collectibles == 0)
-			end_game(game);
+			end_game(game, NULL, 0);
 		game->map.map[y - 1][x] = 'P';
 		game->player.direction = 'U';
 		game->map.y_player_pos = y - 1;
@@ -77,7 +77,7 @@ void	move_down(t_game *game)
 		game->map.map[y][x] = '0';
 		game->map.map[game->map.y_exit_pos][game->map.x_exit_pos] = 'E';
 		if (game->map.map[y + 1][x] == 'E' && game->collectibles == 0)
-			end_game(game);
+			end_game(game, NULL, 0);
 		game->map.map[y + 1][x] = 'P';
 		game->player.direction = 'D';
 		game->map.y_player_pos = y + 1;
@@ -100,7 +100,7 @@ void	move_left(t_game *game)
 		game->map.map[y][x] = '0';
 		game->map.map[game->map.y_exit_pos][game->map.x_exit_pos] = 'E';
 		if (game->map.map[y][x - 1] == 'E' && game->collectibles == 0)
-			end_game(game);
+			end_game(game, NULL, 0);
 		game->map.map[y][x - 1] = 'P';
 		game->player.direction = 'L';
 		game->map.x_player_pos = x - 1;
@@ -123,7 +123,7 @@ void	move_right(t_game *game)
 		game->map.map[y][x] = '0';
 		game->map.map[game->map.y_exit_pos][game->map.x_exit_pos] = 'E';
 		if (game->map.map[y][x + 1] == 'E' && game->collectibles == 0)
-			end_game(game);
+			end_game(game, NULL, 0);
 		game->map.map[y][x + 1] = 'P';
 		game->player.direction = 'R';
 		game->map.x_player_pos = x + 1;

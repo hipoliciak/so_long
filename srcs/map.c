@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 11:17:51 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/05/16 02:09:54 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/05/16 12:54:39 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,47 +15,30 @@
 void	read_map(t_game *game, char *path)
 {
 	int		fd;
+	int		rec_check;
 	char	*line;
-	char	**split;
 
-	fd = open(path, O_RDONLY);
-	if (fd < 0)
-		end_game(game);
+	rec_check = 0;
+	fd = open_map(path, game);
 	line = get_next_line(fd);
 	if (!line)
-	{
-		close(fd);
-		end_game(game);
-	}
+		end_game(game, "No map", 1);
 	if (ft_strchr(line, '\n') != 0)
-	{
-		split = ft_split(line, '\n');
-		free(line);
-		line = split[0];
-		free(split);
-	}
+		line = split_line(line);
 	game->map.width = ft_strlen(line);
 	while (line)
 	{
 		if ((int)ft_strlen(line) != game->map.width)
-		{
-			free(line);
-			close(fd);
-			end_game(game);
-		}
+			rec_check = 1;
 		game->map.height++;
-		game->map.width = ft_strlen(line);
 		free(line);
 		line = get_next_line(fd);
 		if (ft_strchr(line, '\n') != 0)
-		{
-			split = ft_split(line, '\n');
-			free(line);
-			line = split[0];
-			free(split);
-		}
+			line = split_line(line);
 	}
 	close(fd);
+	if (rec_check == 1)
+		end_game(game, "Map not rectangular", 1);
 }
 
 void	fill_map(t_game *game, char *path)
@@ -64,19 +47,19 @@ void	fill_map(t_game *game, char *path)
 	char	*line;
 	int		i;
 
-	fd = open(path, O_RDONLY);
-	if (fd < 0)
-		end_game(game);
+	if (game->map.height <= 3 || game->map.width <= 3)
+		end_game(game, "Map too small", 1);
+	fd = open_map(path, game);
 	game->map.map = malloc(game->map.height * sizeof(char *));
 	if (!game->map.map)
-		end_game(game);
+		end_game(game, "Malloc error", 1);
 	i = 0;
 	while (i < game->map.height)
 	{
 		line = get_next_line(fd);
 		game->map.map[i] = malloc((game->map.width + 1) * sizeof(char));
 		if (!game->map.map[i])
-			end_game(game);
+			end_game(game, "Malloc error", 1);
 		ft_strlcpy(game->map.map[i], line, game->map.width + 1);
 		free(line);
 		i++;
@@ -84,55 +67,53 @@ void	fill_map(t_game *game, char *path)
 	close(fd);
 }
 
-int	validate_elements(t_map *map)
+void	validate_elements(t_game *game)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (i < map->height)
+	while (i < game->map.height)
 	{
 		j = 0;
-		while (j < map->width)
+		while (j < game->map.width)
 		{
-			if (ft_strchr("01CEP", map->map[i][j]) == NULL)
-				return (0);
+			if (ft_strchr("01CEP", game->map.map[i][j]) == NULL)
+				end_game(game, "Invalid element on the map", 1);
 			j++;
 		}
 		i++;
 	}
-	return (1);
 }
 
-int	check_walls(t_map *map)
+void	check_walls(t_game *game)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (i < map->height)
+	while (i < game->map.height)
 	{
 		j = 0;
-		while (j < map->width)
+		while (j < game->map.width)
 		{
-			if (i == 0 || i == map->height)
+			if (i == 0 || i == game->map.height)
 			{
-				if (map->map[i][j] != '1')
-					return (0);
+				if (game->map.map[i][j] != '1')
+					end_game(game, "Invalid wall", 1);
 			}
-			if (j == 0 || j == map->width - 1)
+			if (j == 0 || j == game->map.width - 1)
 			{
-				if (map->map[i][j] != '1')
-					return (0);
+				if (game->map.map[i][j] != '1')
+					end_game(game, "Invalid wall", 1);
 			}
 			j++;
 		}
 		i++;
 	}
-	return (1);
 }
 
-int	count_elements(t_game *game)
+void	count_elements(t_game *game)
 {
 	int	i;
 	int	j;
@@ -158,6 +139,5 @@ int	count_elements(t_game *game)
 		i++;
 	}
 	if (game->collectibles == 0 || player != 1 || exit != 1)
-		return (0);
-	return (1);
+		end_game(game, "Wrong number of elements on the map", 1);
 }
