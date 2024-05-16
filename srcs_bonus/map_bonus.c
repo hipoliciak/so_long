@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map.c                                              :+:      :+:    :+:   */
+/*   map_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmodrzej <dmodrzej@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 11:17:51 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/05/16 14:11:16 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:08:42 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 void	read_map(t_game *game, char *path)
 {
@@ -78,7 +78,7 @@ void	validate_elements(t_game *game)
 		j = 0;
 		while (j < game->map.width)
 		{
-			if (ft_strchr("01CEP", game->map.map[i][j]) == NULL)
+			if (ft_strchr("01CEPR", game->map.map[i][j]) == NULL)
 				end_game(game, "Invalid element on the map", 1);
 			j++;
 		}

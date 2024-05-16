@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   graphics.c                                         :+:      :+:    :+:   */
+/*   graphics_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmodrzej <dmodrzej@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 11:03:34 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/05/16 15:12:51 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:08:39 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 void	init_sprites(t_game *game)
 {
@@ -22,6 +22,10 @@ void	init_sprites(t_game *game)
 	game->player.player_l = create_sprite(game, PLAYER_L);
 	game->player.player_u = create_sprite(game, PLAYER_U);
 	game->player.player_d = create_sprite(game, PLAYER_D);
+	game->enemy.enemy_r = create_sprite(game, ENEMY_R);
+	game->enemy.enemy_l = create_sprite(game, ENEMY_L);
+	game->enemy.enemy_u = create_sprite(game, ENEMY_U);
+	game->enemy.enemy_d = create_sprite(game, ENEMY_D);
 }
 
 t_image	create_sprite(t_game *game, char *path)
@@ -53,31 +57,32 @@ void	render_player(t_game *game, int line, int column)
 		render_sprite(game, &game->player.player_d, line, column);
 }
 
-int	render_map(t_game *game)
+void	render_map(t_game *game, t_map map)
 {
 	int	line;
 	int	column;
 
 	line = 0;
-	while (line < game->map.height)
+	while (line < map.height)
 	{
 		column = 0;
-		while (column < game->map.width)
+		while (column < map.width)
 		{
-			if (game->map.map[line][column] == 'E')
+			if (map.map[line][column] == 'E')
 				render_sprite(game, &game->exit, line, column);
-			if (game->map.map[line][column] == 'C')
+			if (map.map[line][column] == 'C')
 				render_sprite(game, &game->collectible, line, column);
-			if (game->map.map[line][column] == '1')
+			if (map.map[line][column] == '1')
 				render_sprite(game, &game->wall, line, column);
-			if (game->map.map[line][column] == '0')
+			if (map.map[line][column] == '0')
 				render_sprite(game, &game->floor, line, column);
-			if (game->map.map[line][column] == 'P')
+			if (map.map[line][column] == 'P')
 				render_player(game, line, column);
+			if (map.map[line][column] == 'R')
+				render_enemy(game, line, column);
 			column++;
 		}
 		line++;
 	}
 	display_moves_and_collectibles(game);
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 19:24:47 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/05/16 15:07:14 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:37:51 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@
 # define PLAYER_L "sprites/player_l.xpm"
 # define PLAYER_U "sprites/player_u.xpm"
 # define PLAYER_D "sprites/player_d.xpm"
+# define ENEMY_R "sprites/enemy_r.xpm"
+# define ENEMY_L "sprites/enemy_l.xpm"
+# define ENEMY_U "sprites/enemy_u.xpm"
+# define ENEMY_D "sprites/enemy_d.xpm"
 
 typedef struct s_map
 {
@@ -38,6 +42,8 @@ typedef struct s_map
 	int		height;
 	int		x_player_pos;
 	int		y_player_pos;
+	int		x_enemy_pos;
+	int		y_enemy_pos;
 	int		x_exit_pos;
 	int		y_exit_pos;
 }	t_map;
@@ -58,6 +64,15 @@ typedef struct s_player
 	char	direction;
 }	t_player;
 
+typedef struct s_enemy
+{
+	t_image	enemy_r;
+	t_image	enemy_l;
+	t_image	enemy_u;
+	t_image	enemy_d;
+	char	direction;
+}	t_enemy;
+
 typedef struct s_game
 {
 	void		*mlx_ptr;
@@ -70,6 +85,7 @@ typedef struct s_game
 	t_image		wall;
 	t_image		floor;
 	t_player	player;
+	t_enemy		enemy;
 }	t_game;
 
 //Engine
@@ -84,7 +100,7 @@ void	init_sprites(t_game *game);
 t_image	create_sprite(t_game *game, char *path);
 void	render_sprite(t_game *game, t_image *sprite, int line, int column);
 void	render_player(t_game *game, int line, int column);
-int		render_map(t_game *game);
+void	render_map(t_game *game, t_map map);
 
 //Map
 void	read_map(t_game *game, char *path);
@@ -92,6 +108,10 @@ void	fill_map(t_game *game, char *path);
 void	validate_elements(t_game *game);
 void	check_walls(t_game *game);
 void	count_elements(t_game *game);
+
+//Enemy
+void	render_enemy(t_game *game, int line, int column);
+void	move_enemy(t_game *game, int keycode);
 
 //Utils
 int		open_map(char *path, t_game *game);

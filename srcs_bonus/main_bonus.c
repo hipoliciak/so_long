@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmodrzej <dmodrzej@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 10:35:54 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/05/16 15:17:17 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:08:23 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 static int	key_hook(int keycode, t_game *game)
 {
@@ -19,22 +19,26 @@ static int	key_hook(int keycode, t_game *game)
 	else if (keycode == KEY_W || keycode == KEY_AR_U)
 	{
 		move_up(game);
-		// draw_map(game);
+		move_enemy(game, keycode);
+		draw_map(game);
 	}
 	else if (keycode == KEY_S || keycode == KEY_AR_D)
 	{
 		move_down(game);
-		// draw_map(game);
+		move_enemy(game, keycode);
+		draw_map(game);
 	}
 	else if (keycode == KEY_A || keycode == KEY_AR_L)
 	{
 		move_left(game);
-		// draw_map(game);
+		move_enemy(game, keycode);
+		draw_map(game);
 	}
 	else if (keycode == KEY_D || keycode == KEY_AR_R)
 	{
 		move_right(game);
-		// draw_map(game);
+		move_enemy(game, keycode);
+		draw_map(game);
 	}
 	return (0);
 }
@@ -50,6 +54,8 @@ static void	init_game(t_game *game)
 	game->map.height = 0;
 	game->map.x_player_pos = 0;
 	game->map.y_player_pos = 0;
+	game->map.x_enemy_pos = 0;
+	game->map.y_enemy_pos = 0;
 	game->map.x_exit_pos = 0;
 	game->map.y_exit_pos = 0;
 	game->collectible.xpm_ptr = NULL;
@@ -61,6 +67,11 @@ static void	init_game(t_game *game)
 	game->player.player_l.xpm_ptr = NULL;
 	game->player.player_u.xpm_ptr = NULL;
 	game->player.player_d.xpm_ptr = NULL;
+	game->enemy.direction = 'R';
+	game->enemy.enemy_r.xpm_ptr = NULL;
+	game->enemy.enemy_l.xpm_ptr = NULL;
+	game->enemy.enemy_u.xpm_ptr = NULL;
+	game->enemy.enemy_d.xpm_ptr = NULL;
 }
 
 int	main(int argc, char **argv)
@@ -83,10 +94,10 @@ int	main(int argc, char **argv)
 			game.map.height * SPRITE_SIZE, "Let's play So Long!");
 	if (!game.win_ptr)
 		return (1);
+	render_map(&game, game.map);
 	init_positions(&game);
 	mlx_key_hook(game.win_ptr, key_hook, &game);
 	mlx_hook(game.win_ptr, CLOSE_BTN, 0, end_game, &game);
-	mlx_hook(game.win_ptr, EXPOSE, EXPOSURE_MASK, render_map, &game);
 	mlx_loop(game.mlx_ptr);
 	return (0);
 }

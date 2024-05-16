@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmodrzej <dmodrzej@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:05:59 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/05/16 15:19:15 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:08:48 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 int	open_map(char *path, t_game *game)
 {
@@ -60,21 +60,21 @@ void	display_moves_and_collectibles(t_game *game)
 	free(collectibles);
 }
 
-// void	draw_map(t_game *game)
-// {
-// 	int	i;
+void	draw_map(t_game *game)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (i < game->map.height)
-// 	{
-// 		ft_printf("%s\n", game->map.map[i]);
-// 		i++;
-// 	}
-// 	ft_printf("x_player_pos: %d\n", game->map.x_player_pos);
-// 	ft_printf("y_player_pos: %d\n", game->map.y_player_pos);
-// 	ft_printf("x_exit_pos: %d\n", game->map.x_exit_pos);
-// 	ft_printf("y_exit_pos: %d\n", game->map.y_exit_pos);
-// 	ft_printf("moves: %d\n", game->moves);
-// 	ft_printf("collectibles: %d\n", game->collectibles);
-// 	ft_printf("\n");
-// }
+	i = 0;
+	while (i < game->map.height)
+	{
+		ft_printf("%s\n", game->map.map[i]);
+		i++;
+	}
+	ft_printf("x_player_pos: %d\n", game->map.x_player_pos);
+	ft_printf("y_player_pos: %d\n", game->map.y_player_pos);
+	ft_printf("x_exit_pos: %d\n", game->map.x_exit_pos);
+	ft_printf("y_exit_pos: %d\n", game->map.y_exit_pos);
+	ft_printf("moves: %d\n", game->moves);
+	ft_printf("collectibles: %d\n", game->collectibles);
+	ft_printf("\n");
+}

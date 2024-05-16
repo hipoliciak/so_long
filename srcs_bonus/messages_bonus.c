@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   messages.c                                         :+:      :+:    :+:   */
+/*   messages_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmodrzej <dmodrzej@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:22:25 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/05/16 14:11:28 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:08:45 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 void	exit_message(t_game *game, char *message, int code)
 {
@@ -54,6 +54,14 @@ void	destroy_images(t_game *game)
 		mlx_destroy_image(game->mlx_ptr, game->player.player_u.xpm_ptr);
 	if (game->player.player_d.xpm_ptr)
 		mlx_destroy_image(game->mlx_ptr, game->player.player_d.xpm_ptr);
+	if (game->enemy.enemy_r.xpm_ptr)
+		mlx_destroy_image(game->mlx_ptr, game->enemy.enemy_r.xpm_ptr);
+	if (game->enemy.enemy_l.xpm_ptr)
+		mlx_destroy_image(game->mlx_ptr, game->enemy.enemy_l.xpm_ptr);
+	if (game->enemy.enemy_u.xpm_ptr)
+		mlx_destroy_image(game->mlx_ptr, game->enemy.enemy_u.xpm_ptr);
+	if (game->enemy.enemy_d.xpm_ptr)
+		mlx_destroy_image(game->mlx_ptr, game->enemy.enemy_d.xpm_ptr);
 }
 
 int	end_game(t_game *game, char *message, int code)
