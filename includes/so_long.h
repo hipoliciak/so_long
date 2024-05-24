@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 19:24:47 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/05/16 15:07:14 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/05/24 09:58:47 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include "mlx.h"
 # include "key_linux.h"
 # include <fcntl.h>
-# include <stdio.h>
 
 # define SPRITE_SIZE 50
 
@@ -97,7 +96,7 @@ void	count_elements(t_game *game);
 int		open_map(char *path, t_game *game);
 char	*split_line(char *line);
 void	display_moves_and_collectibles(t_game *game);
-void	draw_map(t_game *game);
+// void	draw_map(t_game *game);
 
 //Messages
 int		end_game(t_game *game, char *message, int code);

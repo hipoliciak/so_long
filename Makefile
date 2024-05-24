@@ -6,7 +6,7 @@
 #    By: dmodrzej <dmodrzej@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/02 11:43:35 by dmodrzej          #+#    #+#              #
-#    Updated: 2024/05/16 14:12:04 by dmodrzej         ###   ########.fr        #
+#    Updated: 2024/05/24 09:53:37 by dmodrzej         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,20 +21,10 @@ SRC_DIR =	srcs/
 SRC		=	main.c engine.c graphics.c map.c messages.c utils.c
 SRCS	=	$(addprefix $(SRC_DIR), $(SRC))
 
-# sources_bonus
-SRC_DIR_BONUS =	srcs_bonus/
-SRC_BONUS	=	main_bonus.c engine_bonus.c graphics_bonus.c map_bonus.c enemy_bonus.c messages_bonus.c utils_bonus.c
-SRCS_BONUS	=	$(addprefix $(SRC_DIR_BONUS), $(SRC_BONUS))
-
 # objects
 OBJ_DIR	=	objs/
 OBJ		=	$(SRC:.c=.o)
 OBJS	=	$(addprefix $(OBJ_DIR), $(OBJ))
-
-# objects_bonus
-OBJ_DIR_BONUS	=	objs_bonus/
-OBJ_BONUS		=	$(SRC_BONUS:.c=.o)
-OBJS_BONUS		=	$(addprefix $(OBJ_DIR_BONUS), $(OBJ_BONUS))
 
 # includes
 INC		=	-I includes -I libs/libft -I libs/ft_printf -I libs/mlx
@@ -72,9 +62,6 @@ endef
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJ_DIR)
 			@$(CC) $(FLAGS) -c $< -o $@ $(INC)
 
-$(OBJ_DIR_BONUS)%.o: $(SRC_DIR_BONUS)%.c | $(OBJ_DIR_BONUS)
-			@$(CC) $(FLAGS) -c $< -o $@ $(INC)
-
 all:		$(LIBFT) $(PRINT_F) $(MLX) $(NAME)
 
 $(NAME):	$(OBJS)
@@ -85,9 +72,6 @@ $(NAME):	$(OBJS)
 
 $(OBJ_DIR):
 			@mkdir -p $(OBJ_DIR)
-
-$(OBJ_DIR_BONUS):
-			@mkdir -p $(OBJ_DIR_BONUS)
 
 $(LIBFT):
 			@make -sC $(LIBFT_DIR)
@@ -121,4 +105,4 @@ fclean:		clean
 
 re:			fclean all
 
-.PHONY:		all bonus clean fclean re
+.PHONY:		all clean fclean re

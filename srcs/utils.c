@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:05:59 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/05/16 15:19:15 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/05/24 09:57:32 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ void	display_moves_and_collectibles(t_game *game)
 		0x00FFFFFF, "Collectibles: ");
 	mlx_string_put(game->mlx_ptr, game->win_ptr, 120, 25,
 		0x00FFFFFF, collectibles);
-	ft_printf("Moves: %s\n", moves);
-	ft_printf("Collectibles: %s\n", collectibles);
+	// ft_printf("Moves: %s\n", moves);
+	// ft_printf("Collectibles: %s\n", collectibles);
 	free(moves);
 	free(collectibles);
 }
